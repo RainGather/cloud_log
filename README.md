@@ -7,8 +7,8 @@ Just Supports Python 3 Now.
 
 # Install
 
-```
-git clone
+```git
+git clone https://github.com/scaldstack/cloud_log.git
 cd cloud_log
 python setup.py install
 ```
