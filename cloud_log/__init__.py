@@ -2,10 +2,9 @@ import json
 import time
 import threading
 
-from logging import Logger
 from os.path import exists
-from get_ip import get_lan_ip, get_wan_ip
-from send_email import send_email
+from cloud_log.get_ip import get_lan_ip, get_wan_ip
+from cloud_log.send_email import send_email
 
 
 CRITICAL = 50
@@ -79,9 +78,12 @@ class CloudLogger:
         self.set_cfg(cfg)
         self.lan_ip = get_lan_ip()
         self.wan_ip = get_wan_ip()
-        self.Logger = Logger(__name__, self.cfg['notice_level'])
         self.timer = SendMsgTimer(self.send_msg)
         self.timer.start()
+        self.logger = None
+
+    def set_logger(self, logger):
+        self.logger = logger
 
     def in_allow_time(self, level):
         allow_time = self.cfg['msg_interval_time'][level]
@@ -150,18 +152,28 @@ class CloudLogger:
 
     def debug(self, msg):
         self.cache_log('DEBUG', msg)
+        if self.logger:
+            self.logger.debug(msg)
 
     def info(self, msg):
         self.cache_log('INFO', msg)
+        if self.logger:
+            self.logger.info(msg)
 
     def warning(self, msg):
         self.cache_log('WARNING', msg)
+        if self.logger:
+            self.logger.warning(msg)
 
     def error(self, msg):
         self.cache_log('ERROR', msg)
+        if self.logger:
+            self.logger.error(msg)
 
     def critical(self, msg):
         self.cache_log('CRITICAL', msg)
+        if self.logger:
+            self.logger.critical(msg)
 
 
 if __name__ == '__main__':
