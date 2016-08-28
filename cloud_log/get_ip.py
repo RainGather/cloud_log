@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
-# Use Success In Python2.7
 
 import socket
-import fcntl
-import struct
 import re
 
 from urllib.request import urlopen
@@ -20,12 +17,14 @@ def get_wan_ip():
     try:
         html = urlopen('http://www.ip.cn/', timeout=5).read().decode('utf-8')
         ip = re.search('\d+\.\d+\.\d+\.\d+', html).group(0)
-    except:
+    except Exception as e:
+        print(e)
         try:
             html = urlopen('http://www.123cha.com/ip/', timeout=5).read().decode('utf-8')
             ip = re.search('\d+\.\d+\.\d+\.\d+', html).group(0)
-        except:
+        except Exception as e:
             print('Error: Get Wan Ip Error!')
+            print(e)
             ip = 'Get Wan Ip Error'
     return ip
 

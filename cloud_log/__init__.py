@@ -131,8 +131,9 @@ class CloudLogger:
         if isinstance(self.cfg['notice_level'], int):
             try:
                 self.cfg['notice_level'] = INT_TO_LEVEL[self.cfg['notice_level']]
-            except:
+            except Exception as e:
                 print('Error: notice_level set error!')
+                print(e)
                 return False
 
     def reset_timer(self, level):
@@ -142,38 +143,42 @@ class CloudLogger:
         self.next_send_msg_time[level] = self.last_send_msg_time[level] + msg_interval_time
 
     def cache_log(self, level, msg):
-        if LEVEL_TO_INT[level] >= LEVEL_TO_INT[self.cfg['notice_level']]:
-            nowtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-            msg = level + ': ' + nowtime + ' - ' + self.lan_ip + ' ' + self.wan_ip + ': ' + msg
-            with open(self.cfg['cache_msg_file'], 'a') as fw:
-                fw.write(msg)
-                fw.write('\n')
-        self.reset_timer(level)
+        try:
+            if LEVEL_TO_INT[level] >= LEVEL_TO_INT[self.cfg['notice_level']]:
+                nowtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+                msg = level + ': ' + nowtime + ' - ' + self.lan_ip + ' ' + self.wan_ip + ': ' + msg
+                with open(self.cfg['cache_msg_file'], 'a') as fw:
+                    fw.write(msg)
+                    fw.write('\n')
+            self.reset_timer(level)
+        except Exception as e:
+            print(e)
+            return False
 
     def debug(self, msg):
-        self.cache_log('DEBUG', msg)
         if self.logger:
             self.logger.debug(msg)
+        self.cache_log('DEBUG', msg)
 
     def info(self, msg):
-        self.cache_log('INFO', msg)
         if self.logger:
             self.logger.info(msg)
+        self.cache_log('INFO', msg)
 
     def warning(self, msg):
-        self.cache_log('WARNING', msg)
         if self.logger:
             self.logger.warning(msg)
+        self.cache_log('WARNING', msg)
 
     def error(self, msg):
-        self.cache_log('ERROR', msg)
         if self.logger:
             self.logger.error(msg)
+        self.cache_log('ERROR', msg)
 
     def critical(self, msg):
-        self.cache_log('CRITICAL', msg)
         if self.logger:
             self.logger.critical(msg)
+        self.cache_log('CRITICAL', msg)
 
 
 if __name__ == '__main__':
