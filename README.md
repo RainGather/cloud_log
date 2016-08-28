@@ -37,9 +37,9 @@ cfg = {
        }
       }
 
-CloudLogger.set_cfg(cfg)
-CloudLogger.warning('warning test')
-CloudLogger.error('error test')
+logger = CloudLogger(cfg)
+logger.warning('warning test')
+logger.error('error test')
 ```
 
 # Replace Original Logging
