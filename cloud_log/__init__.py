@@ -6,6 +6,8 @@ from os.path import exists
 from cloud_log.get_ip import get_lan_ip, get_wan_ip
 from cloud_log.send_email import send_email
 
+__author__ = "RainGather <raingather@outlook.com>"
+__version__ = "0.1.2"
 
 CRITICAL = 50
 FATAL = CRITICAL
