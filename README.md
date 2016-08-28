@@ -1,4 +1,4 @@
-- [ENGLISH](#Intro)
+- [ENGLISH](#intro)
 - [中文](#介绍)
 
 # Intro
