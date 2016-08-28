@@ -1,5 +1,6 @@
 .idea
 pyenv
+test
 cloud_log/*.cache
 cloud_log/*.cfg
 cloud_log/test.py
